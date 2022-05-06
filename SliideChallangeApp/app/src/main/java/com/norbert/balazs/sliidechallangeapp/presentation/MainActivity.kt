@@ -45,7 +45,7 @@ class MainActivity : BaseActivity<MainActivityBinding>() {
     private fun showSplashScreen() {
         installSplashScreen().apply {
             setKeepOnScreenCondition {
-                viewModel.isStarting.value && viewModel.isLoading.value
+                viewModel.isLoading.value
             }
         }
     }

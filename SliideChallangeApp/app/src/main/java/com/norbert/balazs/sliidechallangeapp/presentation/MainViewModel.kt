@@ -5,11 +5,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.norbert.balazs.sliidechallangeapp.common.APPLICATION_TAG
 import com.norbert.balazs.sliidechallangeapp.common.Resource
-import com.norbert.balazs.sliidechallangeapp.common.SPLASH_SCREEN_DURATION
 import com.norbert.balazs.sliidechallangeapp.domain.model.User
 import com.norbert.balazs.sliidechallangeapp.domain.use_case.GetUsersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
@@ -22,9 +20,6 @@ class MainViewModel @Inject constructor(
     @Named("GetUsersUseCase") private val getUsersUseCase: GetUsersUseCase
 ) : ViewModel() {
 
-    private val _isStarting = MutableStateFlow(true)
-    val isStarting = _isStarting.asStateFlow()
-
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
 
@@ -35,10 +30,6 @@ class MainViewModel @Inject constructor(
     val isFailed = _isFailed.asStateFlow()
 
     init {
-        viewModelScope.launch {
-            delay(SPLASH_SCREEN_DURATION)
-            _isStarting.value = false
-        }
         loadUsersAsync()
     }
 
