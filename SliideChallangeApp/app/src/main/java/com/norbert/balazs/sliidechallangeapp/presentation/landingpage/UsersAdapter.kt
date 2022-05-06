@@ -16,9 +16,9 @@ class UsersAdapter : RecyclerView.Adapter<UserVH>() {
         val diffResult = DiffUtil.calculateDiff(
             UsersDiffUtilCallback(newList, usersList)
         )
+        diffResult.dispatchUpdatesTo(this)
         usersList.clear()
         usersList.addAll(newList)
-        diffResult.dispatchUpdatesTo(this)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserVH {

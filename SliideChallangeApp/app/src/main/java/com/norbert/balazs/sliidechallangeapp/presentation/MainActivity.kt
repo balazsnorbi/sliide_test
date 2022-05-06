@@ -1,6 +1,8 @@
 package com.norbert.balazs.sliidechallangeapp.presentation
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.widget.Toolbar
@@ -15,7 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : BaseActivity<MainActivityBinding>() {
 
-    private val viewModel: MainActivityVM by viewModels()
+    private val viewModel: MainViewModel by viewModels()
 
     override fun getLayoutId() = R.layout.main_activity
 
@@ -26,10 +28,24 @@ class MainActivity : BaseActivity<MainActivityBinding>() {
         configureNavigation()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return if (item.itemId == R.id.menu_item_refresh) {
+            viewModel.loadUsersAsync()
+            true
+        } else {
+            super.onOptionsItemSelected(item)
+        }
+    }
+
     private fun showSplashScreen() {
         installSplashScreen().apply {
             setKeepOnScreenCondition {
-                viewModel.isLoading.value
+                viewModel.isStarting.value && viewModel.isLoading.value
             }
         }
     }
