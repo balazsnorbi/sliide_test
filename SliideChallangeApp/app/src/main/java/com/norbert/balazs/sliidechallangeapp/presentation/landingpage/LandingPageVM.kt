@@ -1,24 +1,15 @@
 package com.norbert.balazs.sliidechallangeapp.presentation.landingpage
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.norbert.balazs.sliidechallangeapp.common.APPLICATION_TAG
-import com.norbert.balazs.sliidechallangeapp.data.remote.UsersDbApi
+import com.norbert.balazs.sliidechallangeapp.domain.use_case.GetUsersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Named
 
 @HiltViewModel
 class LandingPageVM @Inject constructor(
-    @Named("UsersDbApi") private val usersDbApi: UsersDbApi
+    @Named("GetUsersUseCase") private val getUsersUseCase: GetUsersUseCase
 ) : ViewModel() {
 
-    fun getUsers() {
-        viewModelScope.launch {
-            val users = usersDbApi.getUsers()
-            Log.i(APPLICATION_TAG, "Users count: ${users.size}")
-        }
-    }
+    suspend fun loadUsersAsync() = getUsersUseCase.invoke()
 }

@@ -3,7 +3,10 @@ package com.norbert.balazs.sliidechallangeapp.di
 import android.content.Context
 import com.norbert.balazs.sliidechallangeapp.common.API_KEY
 import com.norbert.balazs.sliidechallangeapp.common.BASE_USERS_DB_URL
-import com.norbert.balazs.sliidechallangeapp.data.remote.UsersDbApi
+import com.norbert.balazs.sliidechallangeapp.data.remote.UsersApi
+import com.norbert.balazs.sliidechallangeapp.data.repository.UsersRepositoryImpl
+import com.norbert.balazs.sliidechallangeapp.domain.repository.UserRepository
+import com.norbert.balazs.sliidechallangeapp.domain.use_case.GetUsersUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -81,10 +84,28 @@ object ApplicationModule {
 
     @Provides
     @Singleton
-    @Named("UsersDbApi")
+    @Named("UsersApi")
     fun provideUsersDbApi(
         @Named("UsersDbRetrofit") retrofit: Retrofit
-    ): UsersDbApi {
-        return retrofit.create(UsersDbApi::class.java)
+    ): UsersApi {
+        return retrofit.create(UsersApi::class.java)
+    }
+
+    @Provides
+    @Singleton
+    @Named("UsersRepository")
+    fun provideUsersRepository(
+        @Named("UsersApi") usersApi: UsersApi
+    ): UserRepository {
+        return UsersRepositoryImpl(usersApi)
+    }
+
+    @Provides
+    @Singleton
+    @Named("GetUsersUseCase")
+    fun provideGetUsersUseCase(
+        @Named("UsersRepository") usersRepository: UserRepository
+    ): GetUsersUseCase {
+        return GetUsersUseCase(usersRepository)
     }
 }
