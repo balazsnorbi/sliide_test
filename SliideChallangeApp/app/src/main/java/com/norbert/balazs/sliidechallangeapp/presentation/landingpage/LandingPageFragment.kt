@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.norbert.balazs.sliidechallangeapp.R
 import com.norbert.balazs.sliidechallangeapp.common.base.BaseFragment
@@ -49,6 +50,10 @@ class LandingPageFragment : BaseFragment<LandingPageFragmentBinding>() {
                     Toast.makeText(context, "Something went wrong!", Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+
+        layout.fab.setOnClickListener {
+            findNavController().navigate(R.id.action_landingPageFragment_to_newUserDialogFragment)
         }
     }
 }

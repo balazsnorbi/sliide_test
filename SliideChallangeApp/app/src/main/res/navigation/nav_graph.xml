@@ -7,5 +7,15 @@
     <fragment
         android:id="@+id/landingPageFragment"
         android:name="com.norbert.balazs.sliidechallangeapp.presentation.landingpage.LandingPageFragment"
-        android:label="@string/home" />
+        android:label="@string/home" >
+        <action
+            android:id="@+id/action_landingPageFragment_to_newUserDialogFragment"
+            app:destination="@id/newUserDialogFragment" />
+    </fragment>
+
+    <dialog
+        android:id="@+id/newUserDialogFragment"
+        android:name="com.norbert.balazs.sliidechallangeapp.presentation.new_user.NewUserDialogFragment"
+        android:label="NewUserDialogFragment" />
+
 </navigation>
