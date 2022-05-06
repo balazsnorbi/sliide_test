@@ -19,9 +19,8 @@ class GetUsersUseCase @Inject constructor(
             val users = mutableListOf<User>()
             userRepository.getUsers().forEach {
                 users.add(it.toUser())
-
             }
-            emit(Resource.Success(users))
+            emit(Resource.Success(users.toList()))
         } catch (e: HttpException) {
             emit(Resource.Error(e.localizedMessage ?: "An unexpected error occured"))
         } catch (e: IOException) {

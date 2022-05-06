@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.norbert.balazs.sliidechallangeapp.R
 import com.norbert.balazs.sliidechallangeapp.common.APPLICATION_TAG
 import com.norbert.balazs.sliidechallangeapp.common.Resource
@@ -24,6 +25,10 @@ class LandingPageFragment : BaseFragment<LandingPageFragmentBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        layout.rvUsers.layoutManager = LinearLayoutManager(context)
+        layout.rvUsers.adapter = UsersAdapter()
+        layout.rvUsers.addItemDecoration(SpaceItemDecoration(8))
+
         lifecycleScope.launch {
             viewModel.loadUsersAsync().collectLatest { resource ->
                 when (resource) {
@@ -31,7 +36,10 @@ class LandingPageFragment : BaseFragment<LandingPageFragmentBinding>() {
                         Log.i(APPLICATION_TAG, "Loading users")
                     }
                     is Resource.Success -> {
-                        Log.i(APPLICATION_TAG, "Loading succeeded: " + resource.data?.size)
+                        resource.data?.let {
+                            Log.i(APPLICATION_TAG, "Loading succeeded: " + it.size)
+                            (layout.rvUsers.adapter as UsersAdapter).update(it)
+                        }
                     }
                     is Resource.Error -> {
                         Log.i(APPLICATION_TAG, "Loading failed")
@@ -40,5 +48,4 @@ class LandingPageFragment : BaseFragment<LandingPageFragmentBinding>() {
             }
         }
     }
-
 }
