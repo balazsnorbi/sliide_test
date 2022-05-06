@@ -10,7 +10,9 @@ import androidx.navigation.ui.setupWithNavController
 import com.norbert.balazs.sliidechallangeapp.R
 import com.norbert.balazs.sliidechallangeapp.common.base.BaseActivity
 import com.norbert.balazs.sliidechallangeapp.databinding.MainActivityBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : BaseActivity<MainActivityBinding>() {
 
     private val viewModel: MainActivityVM by viewModels()
