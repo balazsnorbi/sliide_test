@@ -34,15 +34,18 @@ class LandingPageFragment : BaseFragment<LandingPageFragmentBinding>() {
                 when (resource) {
                     is Resource.Loading -> {
                         Log.i(APPLICATION_TAG, "Loading users")
+                        layout.progressBar.visibility = View.VISIBLE
                     }
                     is Resource.Success -> {
                         resource.data?.let {
                             Log.i(APPLICATION_TAG, "Loading succeeded: " + it.size)
                             (layout.rvUsers.adapter as UsersAdapter).update(it)
                         }
+                        layout.progressBar.visibility = View.GONE
                     }
                     is Resource.Error -> {
                         Log.i(APPLICATION_TAG, "Loading failed")
+                        layout.progressBar.visibility = View.GONE
                     }
                 }
             }

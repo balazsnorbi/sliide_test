@@ -25,7 +25,7 @@ class UsersAdapter : RecyclerView.Adapter<UserVH>() {
         return UserVH(
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
-                R.layout.list_item,
+                R.layout.list_item_user,
                 parent,
                 false
             )
