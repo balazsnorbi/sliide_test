@@ -1,25 +1,45 @@
 package com.norbert.balazs.sliidechallangeapp.presentation.landingpage
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.norbert.balazs.sliidechallangeapp.R
-import com.norbert.balazs.sliidechallangeapp.common.base.BaseFragment
 import com.norbert.balazs.sliidechallangeapp.databinding.LandingPageFragmentBinding
 import com.norbert.balazs.sliidechallangeapp.presentation.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
 @AndroidEntryPoint
-class LandingPageFragment : BaseFragment<LandingPageFragmentBinding>() {
+class LandingPageFragment : Fragment() {
+
+    private var _layout: LandingPageFragmentBinding? = null
+
+    private val layout get() = _layout!!
 
     private val viewModel: MainViewModel by activityViewModels()
 
-    override fun getLayoutId() = R.layout.landing_page_fragment
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _layout =
+            DataBindingUtil.inflate(layoutInflater, R.layout.landing_page_fragment, null, true)
+        return layout.root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _layout = null
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

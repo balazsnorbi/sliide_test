@@ -15,6 +15,6 @@ fun UserDto.toUser(): User {
         id,
         email,
         name,
-        System.currentTimeMillis().toString()
+        System.currentTimeMillis()
     )
 }

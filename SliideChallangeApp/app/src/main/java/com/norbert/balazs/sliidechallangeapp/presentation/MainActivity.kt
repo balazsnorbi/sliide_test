@@ -5,27 +5,36 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.norbert.balazs.sliidechallangeapp.R
-import com.norbert.balazs.sliidechallangeapp.common.base.BaseActivity
 import com.norbert.balazs.sliidechallangeapp.databinding.MainActivityBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : BaseActivity<MainActivityBinding>() {
+class MainActivity : AppCompatActivity() {
+
+    private var _layout: MainActivityBinding? = null
+
+    private val layout get() = _layout!!
 
     private val viewModel: MainViewModel by viewModels()
 
-    override fun getLayoutId() = R.layout.main_activity
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        showSplashScreen()
         super.onCreate(savedInstanceState)
+        showSplashScreen()
+        _layout = DataBindingUtil.setContentView(this, R.layout.main_activity)
         initToolbar()
         configureNavigation()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _layout = null
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
