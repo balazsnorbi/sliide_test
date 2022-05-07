@@ -38,7 +38,7 @@ class NewUserDialogFragment : DialogFragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _layout = DataBindingUtil.inflate(
             inflater,
             R.layout.new_user_dialog_fragment,
@@ -139,6 +139,7 @@ class NewUserDialogFragment : DialogFragment() {
                             layout.btnCreate.isEnabled = true
                             layout.progressBar.visibility = View.GONE
                             Toast.makeText(requireContext(), "Success!", Toast.LENGTH_SHORT).show()
+                            viewModel.loadUsersAsync()
                             dismiss()
                         }
                     }
