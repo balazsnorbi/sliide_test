@@ -1,4 +1,5 @@
 package com.norbert.balazs.sliidechallangeapp.data.remote.dto
 
-class DeleteUserDto {
-}
+data class DeleteUserResponseDto(
+    val message: String?
+)

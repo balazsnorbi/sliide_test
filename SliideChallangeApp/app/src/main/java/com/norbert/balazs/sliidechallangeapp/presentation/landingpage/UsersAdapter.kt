@@ -1,5 +1,6 @@
 package com.norbert.balazs.sliidechallangeapp.presentation.landingpage
 
+import android.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -8,7 +9,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.norbert.balazs.sliidechallangeapp.R
 import com.norbert.balazs.sliidechallangeapp.domain.model.User
 
-class UsersAdapter : RecyclerView.Adapter<UserVH>() {
+class UsersAdapter(
+    private val deleteUserListener: DeleteUserListener
+) : RecyclerView.Adapter<UserVH>() {
 
     private val usersList = mutableListOf<User>()
 
@@ -33,7 +36,23 @@ class UsersAdapter : RecyclerView.Adapter<UserVH>() {
     }
 
     override fun onBindViewHolder(holder: UserVH, position: Int) {
-        holder.bindTo(usersList[position])
+        val user = usersList[position]
+        holder.bindTo(user)
+        holder.itemView.setOnLongClickListener {
+            it.context?.let { context ->
+                AlertDialog.Builder(it.context)
+                    .setTitle(context.getString(R.string.user_confirmation_title))
+                    .setMessage(context.getString(R.string.user_confirmation_content))
+                    .setPositiveButton(
+                        android.R.string.ok
+                    ) { _, _ ->
+                        deleteUserListener.onUserDeleteRequested(user.id)
+                    }
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .show()
+            }
+            true
+        }
     }
 
     override fun getItemCount(): Int {

@@ -7,6 +7,7 @@ import com.norbert.balazs.sliidechallangeapp.data.remote.UsersApi
 import com.norbert.balazs.sliidechallangeapp.data.repository.UsersRepositoryImpl
 import com.norbert.balazs.sliidechallangeapp.domain.repository.UserRepository
 import com.norbert.balazs.sliidechallangeapp.domain.use_case.CreateUserUseCase
+import com.norbert.balazs.sliidechallangeapp.domain.use_case.DeleteUserUseCase
 import com.norbert.balazs.sliidechallangeapp.domain.use_case.GetUsersUseCase
 import dagger.Module
 import dagger.Provides
@@ -115,7 +116,16 @@ object ApplicationModule {
     @Named("CreateUserUseCase")
     fun provideCreateUserUseCase(
         @Named("UsersRepository") usersRepository: UserRepository
-    ) : CreateUserUseCase {
+    ): CreateUserUseCase {
         return CreateUserUseCase(usersRepository)
+    }
+
+    @Provides
+    @Singleton
+    @Named("DeleteUserUseCase")
+    fun provideDeleteUserUseCase(
+        @Named("UsersRepository") usersRepository: UserRepository
+    ): DeleteUserUseCase {
+        return DeleteUserUseCase(usersRepository)
     }
 }

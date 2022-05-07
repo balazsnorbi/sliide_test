@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.norbert.balazs.sliidechallangeapp.R
+import com.norbert.balazs.sliidechallangeapp.common.Resource
 import com.norbert.balazs.sliidechallangeapp.databinding.LandingPageFragmentBinding
 import com.norbert.balazs.sliidechallangeapp.presentation.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,7 +46,29 @@ class LandingPageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         layout.rvUsers.layoutManager = LinearLayoutManager(context)
-        layout.rvUsers.adapter = UsersAdapter()
+        layout.rvUsers.adapter = UsersAdapter(object : DeleteUserListener {
+            override fun onUserDeleteRequested(userId: Int) {
+                lifecycleScope.launchWhenStarted {
+                    viewModel.deleteUser(userId).collectLatest {
+                        when (it) {
+                            is Resource.Loading -> {
+                                layout.progressBar.visibility = View.VISIBLE
+                            }
+                            is Resource.Success -> {
+                                layout.progressBar.visibility = View.GONE
+                                viewModel.loadUsersAsync()
+                            }
+                            is Resource.Error -> {
+                                layout.progressBar.visibility = View.GONE
+                                Toast.makeText(context, "User delete failed!", Toast.LENGTH_SHORT)
+                                    .show()
+                            }
+                        }
+                    }
+                }
+            }
+
+        })
         layout.rvUsers.addItemDecoration(SpaceItemDecoration(8))
 
         lifecycleScope.launchWhenStarted {
