@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.norbert.balazs.sliidechallangeapp.common.APPLICATION_TAG
 import com.norbert.balazs.sliidechallangeapp.common.Resource
 import com.norbert.balazs.sliidechallangeapp.domain.model.User
+import com.norbert.balazs.sliidechallangeapp.domain.use_case.CreateUserUseCase
 import com.norbert.balazs.sliidechallangeapp.domain.use_case.GetUsersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +18,8 @@ import javax.inject.Named
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    @Named("GetUsersUseCase") private val getUsersUseCase: GetUsersUseCase
+    @Named("GetUsersUseCase") private val getUsersUseCase: GetUsersUseCase,
+    @Named("CreateUserUseCase") private val createUserUseCase: CreateUserUseCase
 ) : ViewModel() {
 
     private val _isLoading = MutableStateFlow(false)
@@ -60,4 +62,7 @@ class MainViewModel @Inject constructor(
             }
         }
     }
+
+    suspend fun createUser(name: String, email: String, gender: String, status: String) =
+        createUserUseCase.invoke(name, email, gender, status)
 }

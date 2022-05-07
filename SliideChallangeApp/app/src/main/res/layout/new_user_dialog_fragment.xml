@@ -25,7 +25,7 @@
             android:id="@+id/et_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="32dp"
             android:autofillHints="true"
             android:hint="@string/hint_user_name"
             android:inputType="text"
@@ -39,7 +39,7 @@
             android:id="@+id/et_email"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="16dp"
             android:autofillHints="true"
             android:hint="@string/hint_email_address"
             android:inputType="textEmailAddress"
@@ -53,24 +53,47 @@
             android:id="@+id/gender_selector"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="16dp"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_email" />
 
+        <CheckBox
+            android:id="@+id/checkbox_active"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/active"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/gender_selector" />
+
         <Button
             android:id="@+id/btn_create"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="30dp"
             android:enabled="false"
             android:text="@string/create"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/gender_selector" />
+            app:layout_constraintTop_toBottomOf="@+id/checkbox_active" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_margin="4dp"
+            android:indeterminate="false"
+            android:max="100"
+            android:progress="65"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@+id/btn_create"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

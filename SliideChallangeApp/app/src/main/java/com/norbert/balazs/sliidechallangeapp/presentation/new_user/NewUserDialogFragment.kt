@@ -8,12 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.norbert.balazs.sliidechallangeapp.R
+import com.norbert.balazs.sliidechallangeapp.common.Resource
 import com.norbert.balazs.sliidechallangeapp.databinding.NewUserDialogFragmentBinding
 import com.norbert.balazs.sliidechallangeapp.presentation.MainViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 class NewUserDialogFragment : DialogFragment() {
 
@@ -101,6 +106,44 @@ class NewUserDialogFragment : DialogFragment() {
                     // nothing to do here
                 }
             })
+        }
+
+        layout.btnCreate.setOnClickListener {
+            val name = layout.etName.text.toString()
+            val email = layout.etEmail.text.toString()
+            val gender = layout.genderSelector.selectedItem.toString()
+            val isActive = if (layout.checkboxActive.isChecked) {
+                "active"
+            } else {
+                "not active"
+            }
+
+            layout.btnCreate.isEnabled = false
+
+            lifecycleScope.launch {
+                viewModel.createUser(name, email, gender, isActive).collectLatest {
+                    when (it) {
+                        is Resource.Loading -> {
+                            layout.progressBar.visibility = View.VISIBLE
+                        }
+                        is Resource.Error -> {
+                            layout.btnCreate.isEnabled = true
+                            layout.progressBar.visibility = View.GONE
+                            Toast.makeText(
+                                requireContext(),
+                                "Something went wrong!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+                        is Resource.Success -> {
+                            layout.btnCreate.isEnabled = true
+                            layout.progressBar.visibility = View.GONE
+                            Toast.makeText(requireContext(), "Success!", Toast.LENGTH_SHORT).show()
+                            dismiss()
+                        }
+                    }
+                }
+            }
         }
     }
 
