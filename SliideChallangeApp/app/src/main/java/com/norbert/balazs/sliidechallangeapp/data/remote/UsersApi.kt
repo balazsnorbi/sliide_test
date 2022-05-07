@@ -1,6 +1,5 @@
 package com.norbert.balazs.sliidechallangeapp.data.remote
 
-import com.norbert.balazs.sliidechallangeapp.data.remote.dto.DeleteUserResponseDto
 import com.norbert.balazs.sliidechallangeapp.data.remote.dto.NewUserDto
 import com.norbert.balazs.sliidechallangeapp.data.remote.dto.UserDto
 import retrofit2.Response

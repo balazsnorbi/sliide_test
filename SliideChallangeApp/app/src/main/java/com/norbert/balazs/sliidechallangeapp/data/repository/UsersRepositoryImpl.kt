@@ -1,7 +1,6 @@
 package com.norbert.balazs.sliidechallangeapp.data.repository
 
 import com.norbert.balazs.sliidechallangeapp.data.remote.UsersApi
-import com.norbert.balazs.sliidechallangeapp.data.remote.dto.DeleteUserResponseDto
 import com.norbert.balazs.sliidechallangeapp.data.remote.dto.NewUserDto
 import com.norbert.balazs.sliidechallangeapp.data.remote.dto.UserDto
 import com.norbert.balazs.sliidechallangeapp.domain.repository.UserRepository
