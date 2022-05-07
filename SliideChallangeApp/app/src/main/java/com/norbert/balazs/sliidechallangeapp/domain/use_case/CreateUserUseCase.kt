@@ -11,10 +11,14 @@ class CreateUserUseCase @Inject constructor(
     @Named("UserRepository") private val userRepository: UserRepository
 ) {
 
+    companion object {
+        private const val RESPONSE_SUCCESS = 201
+    }
+
     suspend fun invoke(name: String, email: String, gender: String, status: String) = flow {
         try {
             emit(Resource.Loading())
-            userRepository.createUser(
+            val response = userRepository.createUser(
                 NewUserDto(
                     name,
                     email,
@@ -22,7 +26,11 @@ class CreateUserUseCase @Inject constructor(
                     status
                 )
             )
-            emit(Resource.Success(null))
+            if (response.isSuccessful && response.code() == RESPONSE_SUCCESS) {
+                emit(Resource.Success(null))
+            } else {
+                emit(Resource.Error("Call succeeded but something went wrong!"))
+            }
         } catch (e: Exception) {
             emit(Resource.Error(e.localizedMessage ?: "An unexpected error occurred"))
         }

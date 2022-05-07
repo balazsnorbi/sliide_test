@@ -9,11 +9,20 @@ import javax.inject.Named
 class DeleteUserUseCase @Inject constructor(
     @Named("UserRepository") private val userRepository: UserRepository
 ) {
+
+    companion object {
+        private const val RESPONSE_SUCCESS = 204
+    }
+
     suspend fun invoke(userId: Int) = flow {
         try {
             emit(Resource.Loading())
-            userRepository.deleteUser(userId)
-            emit(Resource.Success(null))
+            val response = userRepository.deleteUser(userId)
+            if (response.isSuccessful && response.code() == RESPONSE_SUCCESS) {
+                emit(Resource.Success(null))
+            } else {
+                emit(Resource.Error("Call succeeded but something went wrong!"))
+            }
         } catch (e: Exception) {
             emit(Resource.Error(e.localizedMessage ?: "An unexpected error occurred"))
         }

@@ -4,6 +4,7 @@ import com.norbert.balazs.sliidechallangeapp.data.remote.UsersApi
 import com.norbert.balazs.sliidechallangeapp.data.remote.dto.NewUserDto
 import com.norbert.balazs.sliidechallangeapp.data.remote.dto.UserDto
 import com.norbert.balazs.sliidechallangeapp.domain.repository.UserRepository
+import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -15,11 +16,11 @@ class UsersRepositoryImpl @Inject constructor(
         return usersApi.getUsers()
     }
 
-    override suspend fun createUser(user: NewUserDto) {
-        usersApi.createUser(user)
+    override suspend fun createUser(user: NewUserDto): Response<Unit> {
+        return usersApi.createUser(user)
     }
 
-    override suspend fun deleteUser(userId: Int) {
-        usersApi.deleteUser(userId)
+    override suspend fun deleteUser(userId: Int): Response<Unit> {
+        return usersApi.deleteUser(userId)
     }
 }

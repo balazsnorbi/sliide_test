@@ -11,7 +11,7 @@ interface UsersApi {
     suspend fun getUsers(): List<UserDto>
 
     @POST("users")
-    suspend fun createUser(@Body newUser: NewUserDto)
+    suspend fun createUser(@Body newUser: NewUserDto): Response<Unit>
 
     @DELETE("users/{id}")
     suspend fun deleteUser(@Path("id") id: Int): Response<Unit>
