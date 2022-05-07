@@ -12,7 +12,7 @@ class UserVH(private val layout: ListItemUserBinding) : RecyclerView.ViewHolder(
     fun bindTo(user: User) {
         layout.tvName.text = user.name
         layout.tvEmail.text = user.emailAddress
-        layout.tvCreationTime.text = toDate(user.date)
+        layout.tvCreationTime.text = toDate(System.currentTimeMillis())
     }
 
     @SuppressLint("SimpleDateFormat")
