@@ -13,6 +13,7 @@ class NewUserDtoTest {
             "gender",
             "status"
         )
+
         Assert.assertEquals(dto.name, "name")
         Assert.assertEquals(dto.email, "email")
         Assert.assertEquals(dto.gender, "gender")

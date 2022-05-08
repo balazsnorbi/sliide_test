@@ -14,6 +14,7 @@ class UserDtoTest {
             "name",
             "status"
         )
+
         Assert.assertEquals(dto.name, "name")
         Assert.assertEquals(dto.email, "email")
         Assert.assertEquals(dto.gender, "gender")
@@ -21,6 +22,7 @@ class UserDtoTest {
         Assert.assertEquals(dto.id, 6)
 
         val user = dto.toUser()
+
         Assert.assertEquals(user.name, "name")
         Assert.assertEquals(user.emailAddress, "email")
         Assert.assertEquals(user.id, 6)

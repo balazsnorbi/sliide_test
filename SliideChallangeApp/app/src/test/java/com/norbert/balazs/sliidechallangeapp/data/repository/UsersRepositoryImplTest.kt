@@ -41,6 +41,7 @@ class UsersRepositoryImplTest {
         )
 
         val usersResponse = userRepository.getUsers()
+
         Assert.assertEquals(usersResponse.size, 1)
         Assert.assertEquals(usersResponse[0].name, "name")
         Assert.assertEquals(usersResponse[0].email, "email")
@@ -49,9 +50,11 @@ class UsersRepositoryImplTest {
         Assert.assertEquals(usersResponse[0].id, 5)
 
         userRepository.deleteUser(5)
+
         Assert.assertTrue(true)
 
         userRepository.createUser(newUserDto)
+
         Assert.assertTrue(true)
     }
 }
