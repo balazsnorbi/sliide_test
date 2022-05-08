@@ -5,8 +5,6 @@ import com.norbert.balazs.sliidechallangeapp.data.remote.dto.toUser
 import com.norbert.balazs.sliidechallangeapp.domain.model.User
 import com.norbert.balazs.sliidechallangeapp.domain.repository.UserRepository
 import kotlinx.coroutines.flow.flow
-import retrofit2.HttpException
-import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -21,12 +19,8 @@ class GetUsersUseCase @Inject constructor(
                 users.add(it.toUser())
             }
             emit(Resource.Success(users.toList()))
-        } catch (e: HttpException) {
-            emit(Resource.Error(e.localizedMessage ?: "An unexpected error occured"))
-        } catch (e: IOException) {
-            emit(Resource.Error("Couldn't reach server. Check your internet connection."))
         } catch (e: Exception) {
-            emit(Resource.Error("Something went wrong while fetching favorites!"))
+            emit(Resource.Error(e.localizedMessage ?: "An unexpected error occured"))
         }
     }
 }

@@ -1,9 +1,8 @@
 package com.norbert.balazs.sliidechallangeapp.presentation
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.norbert.balazs.sliidechallangeapp.common.APPLICATION_TAG
+import com.norbert.balazs.sliidechallangeapp.common.DispatcherProvider
 import com.norbert.balazs.sliidechallangeapp.common.Resource
 import com.norbert.balazs.sliidechallangeapp.domain.model.User
 import com.norbert.balazs.sliidechallangeapp.domain.use_case.CreateUserUseCase
@@ -13,12 +12,14 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Named
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
+    @Named("DispatcherProvider") private val dispatcherProvider: DispatcherProvider,
     @Named("GetUsersUseCase") private val getUsersUseCase: GetUsersUseCase,
     @Named("CreateUserUseCase") private val createUserUseCase: CreateUserUseCase,
     @Named("DeleteUserUseCase") private val deleteUserUseCase: DeleteUserUseCase
@@ -39,15 +40,13 @@ class MainViewModel @Inject constructor(
 
     fun loadUsersAsync() {
         viewModelScope.launch {
-            getUsersUseCase.invoke().collect {
+            getUsersUseCase.invoke().flowOn(dispatcherProvider.io).collect {
                 when (it) {
                     is Resource.Loading -> {
-                        Log.i(APPLICATION_TAG, "Loading ...")
                         _isLoading.value = true
                         _isFailed.value = false
                     }
                     is Resource.Success -> {
-                        Log.i(APPLICATION_TAG, "Success!")
                         _isLoading.value = false
                         it.data?.let { users ->
                             _usersList.value = users
@@ -55,7 +54,6 @@ class MainViewModel @Inject constructor(
                         _isFailed.value = false
                     }
                     is Resource.Error -> {
-                        Log.i(APPLICATION_TAG, "Error!")
                         _isLoading.value = false
                         _usersList.value = emptyList()
                         _isFailed.value = true
@@ -66,7 +64,8 @@ class MainViewModel @Inject constructor(
     }
 
     suspend fun createUser(name: String, email: String, gender: String, status: String) =
-        createUserUseCase.invoke(name, email, gender, status)
+        createUserUseCase.invoke(name, email, gender, status).flowOn(dispatcherProvider.io)
 
-    suspend fun deleteUser(userId: Int) = deleteUserUseCase.invoke(userId)
+    suspend fun deleteUser(userId: Int) =
+        deleteUserUseCase.invoke(userId).flowOn(dispatcherProvider.io)
 }

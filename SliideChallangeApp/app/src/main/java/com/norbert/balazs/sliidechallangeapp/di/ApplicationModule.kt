@@ -3,6 +3,8 @@ package com.norbert.balazs.sliidechallangeapp.di
 import android.content.Context
 import com.norbert.balazs.sliidechallangeapp.common.API_KEY
 import com.norbert.balazs.sliidechallangeapp.common.BASE_USERS_DB_URL
+import com.norbert.balazs.sliidechallangeapp.common.DefaultDispatchers
+import com.norbert.balazs.sliidechallangeapp.common.DispatcherProvider
 import com.norbert.balazs.sliidechallangeapp.data.remote.UsersApi
 import com.norbert.balazs.sliidechallangeapp.data.repository.UsersRepositoryImpl
 import com.norbert.balazs.sliidechallangeapp.domain.repository.UserRepository
@@ -128,4 +130,9 @@ object ApplicationModule {
     ): DeleteUserUseCase {
         return DeleteUserUseCase(usersRepository)
     }
+
+    @Provides
+    @Singleton
+    @Named("DispatcherProvider")
+    fun provideDispatcherProvider(): DispatcherProvider = DefaultDispatchers()
 }
