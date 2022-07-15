@@ -14,11 +14,8 @@ class GetUsersUseCase @Inject constructor(
     suspend fun invoke() = flow {
         try {
             emit(Resource.Loading())
-            val users = mutableListOf<User>()
-            userRepository.getUsers().forEach {
-                users.add(it.toUser())
-            }
-            emit(Resource.Success(users.toList()))
+            val users = userRepository.getUsers().map { userDto -> userDto.toUser() }
+            emit(Resource.Success(users))
         } catch (e: Exception) {
             emit(Resource.Error(e.localizedMessage ?: "An unexpected error occured"))
         }

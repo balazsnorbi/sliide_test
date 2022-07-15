@@ -1,6 +1,7 @@
 package com.norbert.balazs.sliidechallangeapp.presentation.landingpage
 
 import android.annotation.SuppressLint
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.norbert.balazs.sliidechallangeapp.databinding.ListItemUserBinding
 import com.norbert.balazs.sliidechallangeapp.domain.model.User
@@ -13,6 +14,14 @@ class UserVH(private val layout: ListItemUserBinding) : RecyclerView.ViewHolder(
         layout.tvName.text = user.name
         layout.tvEmail.text = user.emailAddress
         layout.tvCreationTime.text = toDate(System.currentTimeMillis())
+
+        layout.root.setOnClickListener {
+            layout.tvName.findNavController().navigate(
+                LandingPageFragmentDirections.actionLandingPageFragmentToTestFragment(
+                    user.name
+                )
+            )
+        }
     }
 
     @SuppressLint("SimpleDateFormat")

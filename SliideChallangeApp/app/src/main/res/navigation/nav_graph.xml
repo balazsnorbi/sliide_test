@@ -7,15 +7,29 @@
     <fragment
         android:id="@+id/landingPageFragment"
         android:name="com.norbert.balazs.sliidechallangeapp.presentation.landingpage.LandingPageFragment"
-        android:label="@string/home" >
+        android:label="@string/home">
         <action
             android:id="@+id/action_landingPageFragment_to_newUserDialogFragment"
             app:destination="@id/newUserDialogFragment" />
+        <action
+            android:id="@+id/action_landingPageFragment_to_testFragment"
+            app:destination="@id/testFragment">
+
+        </action>
     </fragment>
 
     <dialog
         android:id="@+id/newUserDialogFragment"
         android:name="com.norbert.balazs.sliidechallangeapp.presentation.new_user.NewUserDialogFragment"
         android:label="NewUserDialogFragment" />
+    <fragment
+        android:id="@+id/testFragment"
+        android:name="com.norbert.balazs.sliidechallangeapp.presentation.detail.DetailFragment"
+        android:label="TestFragment" >
+        <argument
+            android:name="userName"
+            app:argType="string"
+            android:defaultValue="hello" />
+    </fragment>
 
 </navigation>
